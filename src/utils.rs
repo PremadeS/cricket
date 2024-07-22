@@ -2,7 +2,6 @@ use std::{ thread, time };
 use crossterm::{ ExecutableCommand, cursor::MoveTo };
 use std::io::stdout;
 use rand::Rng;
-use crate::bowler;
 
 pub fn cls() {
     print!("{esc}[2J{esc}[1;1H", esc = 27 as char);

@@ -23,23 +23,21 @@ impl Bowler {
         }
     }
 
-    pub fn bowl(&self) {
+    pub fn bowl(&self, speed: &mut u64) {
         match self.bowler_type {
-            BowlerType::Spin => self.bowl_spin(),
-            BowlerType::Fast => self.bowl_spin(),
+            BowlerType::Spin => self.init_bowl(speed),
+            BowlerType::Fast => self.init_bowl(speed),
         }
     }
 
-    fn bowl_spin(&self) {
-        let mut speed: u64 = 40;
-        self.init_bowl(&mut speed);
+    pub fn bowl_spin(&self, speed: &mut u64) -> u64 {
         let _type = utils::random_num(1, 3);
         if _type == 1 {
-            self.bowl_spin_left(&mut speed);
+            self.bowl_spin_left(speed)
         } else if _type == 2 {
-            self.bowl_spin_right(&mut speed);
+            self.bowl_spin_right(speed)
         } else {
-            self.bowl_spin_straight(&mut speed);
+            self.bowl_spin_straight(speed)
         }
     }
     fn init_bowl(&self, speed: &mut u64) {
@@ -58,7 +56,7 @@ impl Bowler {
             }
         }
     }
-    fn bowl_spin_left(&self, speed: &mut u64) {
+    fn bowl_spin_right(&self, speed: &mut u64) -> u64 {
         let x: u16 = BATSMAN_X - 1;
         let y: u16 = BOWLER_Y;
         for i in TURN..MAX_BALL_DIS {
@@ -68,9 +66,14 @@ impl Bowler {
             print!("*");
             utils::sleep(*speed);
             *speed += 1;
+            if i == MAX_BALL_DIS - 1 {
+                utils::move_cursor(x - (TURN - i - 1), y - i); // remove the ball...
+                print!("|");
+            }
         }
+        *speed
     }
-    fn bowl_spin_right(&self, speed: &mut u64) {
+    fn bowl_spin_left(&self, speed: &mut u64) -> u64 {
         let x: u16 = BATSMAN_X - 1;
         let y: u16 = BOWLER_Y;
         for i in TURN..MAX_BALL_DIS {
@@ -80,9 +83,15 @@ impl Bowler {
             print!("*");
             utils::sleep(*speed);
             *speed += 1;
+            if i == MAX_BALL_DIS - 1 {
+                utils::move_cursor(x + (TURN - i - 1), y - i); // remove the ball...
+                print!(" ");
+            }
         }
+
+        *speed
     }
-    fn bowl_spin_straight(&self, speed: &mut u64) {
+    fn bowl_spin_straight(&self, speed: &mut u64) -> u64 {
         let x: u16 = BATSMAN_X - 1;
         let y: u16 = BOWLER_Y;
         for i in TURN..MAX_BALL_DIS {
@@ -92,6 +101,11 @@ impl Bowler {
             print!("*");
             utils::sleep(*speed);
             *speed += 1;
+            if i == MAX_BALL_DIS - 1 {
+                utils::move_cursor(x, y - i); // remove the ball...
+                print!(" ");
+            }
         }
+        *speed
     }
 }
