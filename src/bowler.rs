@@ -1,6 +1,4 @@
 const BATSMAN_X: u16 = 58;
-const BATSMAN_Y: u16 = 1;
-const BOWLER_X: u16 = 49;
 const BOWLER_Y: u16 = 33;
 const TURN: u16 = 27;
 const MAX_BALL_DIS: u16 = 31;
@@ -9,10 +7,16 @@ pub enum BowlerType {
     Spin,
     Fast,
 }
-
+#[derive(Debug, PartialEq)]
+pub enum BowlType {
+    Left,
+    Right,
+    Straight,
+}
 pub struct Bowler {
     pub name: String,
     pub bowler_type: BowlerType,
+    pub bowl_type: BowlType,
 }
 
 impl Bowler {
@@ -20,6 +24,7 @@ impl Bowler {
         Bowler {
             name: name.to_string(),
             bowler_type,
+            bowl_type: BowlType::Left,
         }
     }
 
@@ -30,14 +35,17 @@ impl Bowler {
         }
     }
 
-    pub fn bowl_spin(&self, speed: &mut u64) -> u64 {
+    pub fn bowl_spin(&mut self, speed: &mut u64) {
         let _type = utils::random_num(1, 3);
         if _type == 1 {
-            self.bowl_spin_left(speed)
+            self.bowl_spin_left(speed);
+            self.bowl_type = BowlType::Left;
         } else if _type == 2 {
-            self.bowl_spin_right(speed)
+            self.bowl_spin_right(speed);
+            self.bowl_type = BowlType::Right;
         } else {
-            self.bowl_spin_straight(speed)
+            self.bowl_spin_straight(speed);
+            self.bowl_type = BowlType::Straight;
         }
     }
     fn init_bowl(&self, speed: &mut u64) {
@@ -66,10 +74,10 @@ impl Bowler {
             print!("*");
             utils::sleep(*speed);
             *speed += 1;
-            if i == MAX_BALL_DIS - 1 {
-                utils::move_cursor(x - (TURN - i - 1), y - i); // remove the ball...
-                print!("|");
-            }
+            // if i == MAX_BALL_DIS - 1 {
+            //     utils::move_cursor(x - (TURN - i - 1), y - i); // remove the ball...
+            //     print!(" ");
+            // }
         }
         *speed
     }
@@ -83,10 +91,10 @@ impl Bowler {
             print!("*");
             utils::sleep(*speed);
             *speed += 1;
-            if i == MAX_BALL_DIS - 1 {
-                utils::move_cursor(x + (TURN - i - 1), y - i); // remove the ball...
-                print!(" ");
-            }
+            // if i == MAX_BALL_DIS - 1 {
+            //     utils::move_cursor(x + (TURN - i - 1), y - i); // remove the ball...
+            //     print!(" ");
+            // }
         }
 
         *speed
@@ -94,17 +102,17 @@ impl Bowler {
     fn bowl_spin_straight(&self, speed: &mut u64) -> u64 {
         let x: u16 = BATSMAN_X - 1;
         let y: u16 = BOWLER_Y;
-        for i in TURN..MAX_BALL_DIS {
+        for i in TURN..=MAX_BALL_DIS {
             utils::move_cursor(x, y - i + 1);
             print!(" ");
             utils::move_cursor(x, y - i);
             print!("*");
             utils::sleep(*speed);
             *speed += 1;
-            if i == MAX_BALL_DIS - 1 {
-                utils::move_cursor(x, y - i); // remove the ball...
-                print!(" ");
-            }
+            // if i == MAX_BALL_DIS - 1 {
+            //     utils::move_cursor(x, y - i); // remove the ball...
+            //     print!(" ");
+            // }
         }
         *speed
     }
