@@ -36,7 +36,7 @@ impl Bowler {
     }
 
     pub fn bowl_spin(&mut self, speed: &mut u64) {
-        let _type = utils::random_num(1, 3);
+        let _type = utils::random_num(1, 2);
         if _type == 1 {
             self.bowl_spin_left(speed);
             self.bowl_type = BowlType::Left;
@@ -109,10 +109,6 @@ impl Bowler {
             print!("*");
             utils::sleep(*speed);
             *speed += 1;
-            // if i == MAX_BALL_DIS - 1 {
-            //     utils::move_cursor(x, y - i); // remove the ball...
-            //     print!(" ");
-            // }
         }
         *speed
     }
