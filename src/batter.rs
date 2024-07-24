@@ -1,13 +1,10 @@
-const BATSMAN_X: u16 = 58;
-const BOWLER_Y: u16 = 33;
-const TURN: u16 = 27;
-const MAX_BALL_DIS: u16 = 31;
 use text_io::read;
-use crate::{ utils::move_cursor };
+use crate::utils::move_cursor;
 #[derive(Debug, PartialEq)]
 pub enum ShotType {
     Left,
     Right,
+    Straight,
 }
 #[derive(Debug, PartialEq)]
 pub enum ShotPower {

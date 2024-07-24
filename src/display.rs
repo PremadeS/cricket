@@ -306,7 +306,7 @@ pub fn print_right_catch() {
 pub fn print_right_four(block: bool) {
     let mut x: u16 = 0;
     let mut y: u16 = TERMINAL_Y / 2 + 3;
-    let mut sleep_time: u16;
+    let mut sleep_time: u64;
     let end: u16;
     if block {
         end = 57; // caught by fielder...
@@ -318,7 +318,7 @@ pub fn print_right_four(block: bool) {
     for i in (end..TERMINAL_X).rev() {
         move_cursor(x, y);
         print!("*");
-        sleep(sleep_time.into());
+        sleep(sleep_time);
         move_cursor(x, y);
         print!(" ");
         x += 1;
@@ -346,4 +346,85 @@ pub fn print_right_block_fielder() {
     print!("   / ");
     move_cursor(x, y + 4);
     print!("  _\\");
+}
+
+pub fn print_keeper() {
+    let x: u16 = 50;
+    let y: u16 = 24;
+    move_cursor(x, y);
+    print!("   @");
+    move_cursor(x, y + 1);
+    print!("  /|\\");
+    move_cursor(x, y + 2);
+    print!("  [ ]");
+    move_cursor(x, y + 3);
+    print!(" /   \\");
+    move_cursor(x, y + 4);
+    print!("_\\   /_");
+    move_cursor(0, 0);
+}
+pub fn print_back_boundary() {
+    cls();
+    let mut x: u16 = 0;
+    let mut y: u16 = 7;
+    loop {
+        if x > TERMINAL_X {
+            break;
+        }
+        move_cursor(x, y);
+        print!("|+|");
+        x += 2;
+        if x == 14 || x == 30 || x == 44 {
+            y -= 1;
+        } else if x == 74 || x == 90 || x == 104 {
+            y += 1;
+        }
+    }
+    print_keeper();
+}
+pub fn print_back_four() {
+    let mut x: u16 = 45;
+    let mut y: u16 = 40;
+    let mut sleep_time: u64 = 25;
+    for i in 0..TERMINAL_Y - 2 {
+        move_cursor(x, y);
+        print!("*");
+        sleep(sleep_time);
+        move_cursor(x, y);
+        print!(" ");
+        y -= 1;
+        if i % 5 == 0 {
+            x -= 1;
+            sleep_time += 5;
+        }
+    }
+}
+pub fn print_back_catch(drop: bool) {
+    let x: u16 = 53;
+    let mut y: u16 = 40;
+    while y > 26 {
+        move_cursor(x, y);
+        print!("*");
+        sleep(50);
+        move_cursor(x, y);
+        print!(" ");
+        y -= 1;
+    }
+    move_cursor(x, y);
+    print!("*");
+
+    if drop {
+        sleep(500); //suspense...
+
+        while y < 29 {
+            move_cursor(x, y - 1);
+            print!(" ");
+            move_cursor(x, y); // Catch dropped :(....
+            print!("*");
+            sleep(50);
+            y += 1;
+        }
+    }
+
+    move_cursor(0, 0);
 }

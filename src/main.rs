@@ -1,7 +1,6 @@
 use batter::{ Batter, ShotPower, ShotType };
 use bowler::{ BowlType, Bowler, BowlerType };
-use display::print_pitch;
-use rand::random;
+use display::{ print_back_boundary, print_back_catch, print_back_four, print_pitch };
 use utils::random_num;
 
 mod display;
@@ -23,27 +22,8 @@ fn main() {
         } else {
             display::print_right_bat();
         }
-        if
-            batter.shot == ShotType::Left &&
-            batter.power == ShotPower::High &&
-            bowler.bowl_type == BowlType::Left
-        {
-            utils::sleep(1000);
-            display::print_left_boundary();
-            if random_num(1, 2) == 0 {
-                display::print_left_six(random_num(0, 1) == 0);
-            } else {
-                display::print_left_four(random_num(1, 1) != 0);
-            }
-        } else {
-            utils::sleep(1000);
-            display::print_right_boundary();
-            if random_num(1, 1) == 2 {
-                display::print_right_six(random_num(1, 1) != 0);
-            } else {
-                display::print_right_four(random_num(1, 1) != 0);
-            }
-        }
+        print_back_boundary();
+        print_back_catch(true);
         utils::sleep(20000);
 
         // print!("{}", speed);
