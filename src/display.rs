@@ -128,6 +128,21 @@ pub fn print_left_boundary() {
     }
     print_left_fielder();
 }
+pub fn print_init_left_six() {
+    let mut x: u16 = 53;
+    let mut y: u16 = 3;
+    for i in 0..53 {
+        move_cursor(x, y);
+        print!("*");
+        sleep(15);
+        move_cursor(x, y);
+        print!(" ");
+        if i % 26 == 0 && i != 0 {
+            y -= 1;
+        }
+        x -= 1;
+    }
+}
 pub fn print_left_six(catch: bool) {
     let mut x: u16 = TERMINAL_X;
     let mut y: u16 = 5;
@@ -170,6 +185,21 @@ pub fn print_left_catch() {
     print!(" ");
     move_cursor(x + 5, y + 2);
     print!(" ");
+}
+pub fn print_init_left_four() {
+    let mut x: u16 = 53;
+    let mut y: u16 = 3;
+    for i in 0..53 {
+        move_cursor(x, y);
+        print!("*");
+        sleep(10);
+        move_cursor(x, y);
+        print!(" ");
+        if i % 8 == 0 && i != 0 {
+            y += 1;
+        }
+        x -= 1;
+    }
 }
 pub fn print_left_four(block: bool) {
     let mut x: u16 = TERMINAL_X;
@@ -214,8 +244,23 @@ pub fn print_left_block_fielder() {
     print!("    \\ ");
     move_cursor(x, y + 4);
     print!("    /_");
-    move_cursor(x, y + 5);
-    print!("   \\ ");
+}
+pub fn print_left_tip() {
+    let mut x: u16 = 53;
+    let mut y: u16 = 3;
+    let mut speed: u64 = 30;
+    for i in 0..35 {
+        move_cursor(x, y);
+        print!("*");
+        move_cursor(x, y);
+        print!(" ");
+        x -= 1;
+        sleep(speed);
+        if i % 4 == 0 {
+            y += 1;
+            speed += 5;
+        }
+    }
 }
 
 pub fn print_right_bat() {
@@ -260,6 +305,21 @@ pub fn print_right_boundary() {
     }
     print_right_fielder();
 }
+pub fn print_init_right_six() {
+    let mut x: u16 = 64;
+    let mut y: u16 = 3;
+    for i in 0..53 {
+        move_cursor(x, y);
+        print!("*");
+        sleep(15);
+        move_cursor(x, y);
+        print!(" ");
+        if i % 26 == 0 && i != 0 {
+            y -= 1;
+        }
+        x += 1;
+    }
+}
 pub fn print_right_six(catch: bool) {
     let mut x: u16 = 0;
     let mut y: u16 = 8;
@@ -302,6 +362,21 @@ pub fn print_right_catch() {
     print!(" ");
     move_cursor(x + 5, y + 2);
     print!(" ");
+}
+pub fn print_init_right_four() {
+    let mut x: u16 = 67;
+    let mut y: u16 = 3;
+    for i in 0..53 {
+        move_cursor(x, y);
+        print!("*");
+        sleep(10);
+        move_cursor(x, y);
+        print!(" ");
+        if i % 8 == 0 && i != 0 {
+            y += 1;
+        }
+        x += 1;
+    }
 }
 pub fn print_right_four(block: bool) {
     let mut x: u16 = 0;
@@ -346,6 +421,23 @@ pub fn print_right_block_fielder() {
     print!("   / ");
     move_cursor(x, y + 4);
     print!("  _\\");
+}
+pub fn print_right_tip() {
+    let mut x: u16 = 64;
+    let mut y: u16 = 4;
+    let mut speed: u64 = 30;
+    for i in 0..35 {
+        move_cursor(x, y);
+        print!("*");
+        move_cursor(x, y);
+        print!(" ");
+        x += 1;
+        sleep(speed);
+        if i % 4 == 0 {
+            y += 1;
+            speed += 5;
+        }
+    }
 }
 
 pub fn print_keeper() {
@@ -412,6 +504,7 @@ pub fn print_back_catch(drop: bool) {
     }
     move_cursor(x, y);
     print!("*");
+    move_cursor(0, 0);
 
     if drop {
         sleep(500); //suspense...
@@ -424,7 +517,109 @@ pub fn print_back_catch(drop: bool) {
             sleep(50);
             y += 1;
         }
+        move_cursor(0, 0);
     }
+}
+pub fn print_init_back() {
+    let mut x: u16 = 54;
+    let mut y: u16 = 3;
+    for i in 0..3 {
+        move_cursor(x, y);
+        print!("*");
+        sleep(50);
+        move_cursor(x, y);
+        print!(" ");
+        if i % 26 == 0 && i != 0 {
+            x -= 1;
+        }
+        y -= 1;
+    }
+}
 
-    move_cursor(0, 0);
+pub fn print_front_bat() {
+    let x: u16 = BATSMAN_X - 1;
+    let y: u16 = BATSMAN_Y;
+    move_cursor(x, y + 2);
+    print!(" __");
+    move_cursor(x, y + 3);
+    print!("|_");
+    move_cursor(x, y + 4);
+    print!("# ");
+    move_cursor(x, y + 5);
+    print!("# ");
+}
+pub fn print_front_boundary() {
+    cls();
+    let mut x: u16 = 0;
+    let mut y: u16 = 28;
+    loop {
+        if x > TERMINAL_X {
+            break;
+        }
+        move_cursor(x, y);
+        print!("|+|");
+        x += 2;
+        if x == 14 || x == 30 || x == 44 {
+            y += 1;
+        } else if x == 74 || x == 90 || x == 104 {
+            y -= 1;
+        }
+    }
+}
+pub fn print_front_shot(four: bool) {
+    let mut x: u16 = 45;
+    let mut y: u16 = 0;
+    let mut sleep_time: u64;
+    let end: u16;
+    if four {
+        sleep_time = 35;
+        end = TERMINAL_Y - 3;
+    } else {
+        sleep_time = 60;
+        end = TERMINAL_Y - 20;
+    }
+    for i in 0..end {
+        move_cursor(x, y);
+        print!("*");
+        sleep(sleep_time);
+        move_cursor(x, y);
+        print!(" ");
+        y += 1;
+        if i % 5 == 0 {
+            x -= 1;
+            sleep_time += 5;
+        }
+    }
+}
+pub fn print_front_tip() {
+    let mut x: u16 = 57;
+    let mut y: u16 = 7;
+    let mut speed: u64 = 50;
+    for i in 0..15 {
+        move_cursor(x, y);
+        print!("*");
+        move_cursor(x, y);
+        print!(" ");
+        y += 1;
+        sleep(speed);
+        if i % 10 == 0 && i != 0 {
+            x -= 1;
+            speed += 15;
+        }
+    }
+}
+pub fn print_init_front_shot() {
+    let mut x: u16 = 54;
+    let mut y: u16 = 10;
+    for i in 0..30 {
+        move_cursor(x, y);
+        print!("*");
+        sleep(40);
+        move_cursor(x, y);
+        print!(" ");
+        if i % 4 == 0 && i != 0 {
+            x -= 1;
+        }
+        y += 1;
+    }
 }

@@ -54,11 +54,23 @@ impl Batter {
                 self.shot = ShotType::Right;
                 self.power = ShotPower::High;
             }
+            ('s', 'l') => {
+                self.shot = ShotType::Straight;
+                self.power = ShotPower::Low;
+            }
+            ('s', 'm') => {
+                self.shot = ShotType::Straight;
+                self.power = ShotPower::Medium;
+            }
+            ('s', 'h') => {
+                self.shot = ShotType::Straight;
+                self.power = ShotPower::High;
+            }
             _ => panic!("Invalid character"),
         }
     }
     fn valid_selection(&self, shot: char, power: char) -> bool {
-        (shot == 'l' || shot == 'r' || shot == 'L' || shot == 'R') &&
+        (shot == 'l' || shot == 'r' || shot == 'L' || shot == 'R' || shot == 's' || shot == 'S') &&
             (power == 'l' ||
                 power == 'L' ||
                 power == 'm' ||
@@ -68,11 +80,13 @@ impl Batter {
     }
     fn clear_selection(&self) {
         move_cursor(0, 10);
-        print!("                                \n \n                                      \n ");
+        print!(
+            "                                            \n \n                                      \n "
+        );
     }
     pub fn take_shot(&mut self) {
         move_cursor(0, 10);
-        println!("Shot direction? (L)eft , (R)ight");
+        println!("Shot direction? (L)eft , (R)ight, (S)traight");
         let mut shot: char = read!();
         move_cursor(0, 12);
         println!("Power level? (L)ow , (M)edium , (H)igh");
