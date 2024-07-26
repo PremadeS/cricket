@@ -1,4 +1,6 @@
-use text_io::read;
+use crossterm::event::{ self, Event, KeyCode, KeyEvent, KeyModifiers };
+use crossterm::terminal::{ disable_raw_mode, enable_raw_mode };
+use std::process;
 use crate::utils::move_cursor;
 #[derive(Debug, PartialEq)]
 pub enum ShotType {
@@ -24,6 +26,30 @@ impl Batter {
             name: name.to_string(),
             shot: ShotType::Left, //initially assigning value...
             power: ShotPower::Low,
+        }
+    }
+
+    fn read_char(&self) -> char {
+        //To read char without pressing enter...
+        enable_raw_mode().expect("Failed to enable raw mode");
+        loop {
+            if event::poll(std::time::Duration::from_millis(100)).expect("Failed to poll") {
+                if
+                    let Event::Key(KeyEvent { code, modifiers, .. }) = event
+                        ::read()
+                        .expect("Failed to read event")
+                {
+                    if code == KeyCode::Char('c') && modifiers.contains(KeyModifiers::CONTROL) {
+                        //Check for ctrl + c...
+                        disable_raw_mode().expect("Failed to disable raw mode");
+                        process::exit(0);
+                    }
+                    if let KeyCode::Char(c) = code {
+                        disable_raw_mode().expect("Failed to disable raw mode");
+                        return c;
+                    }
+                }
+            }
         }
     }
     fn char_to_enum(&mut self, shot: char, power: char) {
@@ -81,24 +107,24 @@ impl Batter {
     fn clear_selection(&self) {
         move_cursor(0, 10);
         print!(
-            "                                            \n \n                                      \n "
+            "                                     \n                                \n                              \n                           "
         );
     }
     pub fn take_shot(&mut self) {
         move_cursor(0, 10);
-        println!("Shot direction? (L)eft , (R)ight, (S)traight");
-        let mut shot: char = read!();
+        println!("Shot direction?\n(L)eft , (R)ight, (S)traight");
+        let mut shot: char = self.read_char();
         move_cursor(0, 12);
-        println!("Power level? (L)ow , (M)edium , (H)igh");
-        let mut power: char = read!();
+        println!("Power level?\n(L)ow , (M)edium , (H)igh");
+        let mut power: char = self.read_char();
         self.clear_selection();
         while !self.valid_selection(shot, power) {
             move_cursor(0, 10);
-            println!("Shot direction? (L)eft , (R)ight");
-            shot = read!();
+            println!("Shot direction?\n(L)eft , (R)ight, (S)traight");
+            shot = self.read_char();
             move_cursor(0, 12);
-            println!("Power level? (L)ow , (M)edium , (H)igh");
-            power = read!();
+            println!("Power level?\nL)ow , (M)edium , (H)igh");
+            power = self.read_char();
             self.clear_selection();
         }
         self.char_to_enum(shot, power);

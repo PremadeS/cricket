@@ -5,7 +5,35 @@ const BOWLER_Y: u16 = 33;
 const TERMINAL_X: u16 = 120;
 const TERMINAL_Y: u16 = 40;
 use crate::utils::{ cls, move_cursor, sleep };
+use crate::batter::Batter;
+use crate::bowler::{ Bowler, BowlerType };
 
+pub fn print_details(
+    bowler: &Bowler,
+    batter: &Batter,
+    curr_score: &u32,
+    prev_score: &u32,
+    over: &[char]
+) {
+    move_cursor(0, 0);
+    print!("Score: {}", *curr_score);
+    move_cursor(0, 38);
+    print!("Batter: {}", batter.name);
+    move_cursor(0, 40);
+    print!("Bowler: {}", bowler.name);
+    if bowler.bowler_type == BowlerType::Spin {
+        print!("  |  Type: Spin");
+    } else {
+        print!("  |  Type: Fast");
+    }
+    move_cursor(TERMINAL_X - 25, TERMINAL_Y);
+    print!("|");
+    for &scores in over.iter() {
+        print!(" {} |", scores);
+    }
+    move_cursor(TERMINAL_X - 40, TERMINAL_Y);
+    print!("Last Ball: {}", curr_score - prev_score);
+}
 pub fn print_pitch() {
     print_bat_wicket();
     print_bowler();
@@ -134,7 +162,7 @@ pub fn print_init_left_six() {
     for i in 0..53 {
         move_cursor(x, y);
         print!("*");
-        sleep(15);
+        sleep(12);
         move_cursor(x, y);
         print!(" ");
         if i % 26 == 0 && i != 0 {
@@ -306,12 +334,12 @@ pub fn print_right_boundary() {
     print_right_fielder();
 }
 pub fn print_init_right_six() {
-    let mut x: u16 = 64;
+    let mut x: u16 = 67;
     let mut y: u16 = 3;
     for i in 0..53 {
         move_cursor(x, y);
         print!("*");
-        sleep(15);
+        sleep(12);
         move_cursor(x, y);
         print!(" ");
         if i % 26 == 0 && i != 0 {
@@ -547,6 +575,7 @@ pub fn print_front_bat() {
     print!("# ");
     move_cursor(x, y + 5);
     print!("# ");
+    move_cursor(0, 0);
 }
 pub fn print_front_boundary() {
     cls();
@@ -621,5 +650,27 @@ pub fn print_init_front_shot() {
             x -= 1;
         }
         y += 1;
+    }
+}
+
+pub fn print_spin_wicket(speed: u64, out: bool) {
+    let x: u16 = 57;
+    let mut y: u16 = 7;
+    let end: u16;
+    if out {
+        end = 6;
+    } else {
+        end = 4;
+    }
+    for _i in 0..end {
+        move_cursor(x, y);
+        print!("*");
+        sleep(speed);
+        move_cursor(x, y);
+        print!(" ");
+        y -= 1;
+        if y == 3 {
+            y -= 1;
+        }
     }
 }

@@ -1,46 +1,50 @@
-use batter::{ Batter, ShotPower, ShotType };
-use bowler::{ BowlType, Bowler, BowlerType };
-use display::{
-    print_back_boundary,
-    print_back_catch,
-    print_back_four,
-    print_front_boundary,
-    print_pitch,
-    print_front_shot,
-};
-use utils::random_num;
+use batter::{ Batter, ShotType };
+use bowler::{ Bowler, BowlerType };
+use display::{ print_details, print_pitch };
+use engine::Engine;
+use utils::{ cls, move_cursor, random_num, sleep };
 
 mod display;
 mod utils;
 mod bowler;
 mod batter;
+mod engine;
 fn main() {
-    let mut bowler = Bowler::new("Wow", BowlerType::Spin);
-    let mut batter = Batter::new("Les go");
-    for _i in 0..10 {
-        utils::cls();
+    let mut bowler: Bowler = Bowler::new("Bilqees", BowlerType::Spin);
+    let mut batter: Batter = Batter::new("Suwanjana");
+    let mut cricket_engine: Engine = Engine::new(false, 0);
+    let mut over: [char; 6] = ['*', '*', '*', '*', '*', '*'];
+    let mut prev_score: u32 = 0;
+    for i in 0..12 {
+        let mut speed: u64 = random_num(26, 36).into();
+        cls();
         print_pitch();
-        let mut speed: u64 = utils::random_num(20, 40).into();
-        bowler.bowl(&mut speed);
+        if i % 6 > 0 {
+            over[(i % 6) - 1] = (cricket_engine.score - prev_score + 48) as u8 as char;
+        }
+        print_details(&bowler, &batter, &cricket_engine.score, &prev_score, &over);
+        prev_score = cricket_engine.score; //Update previous score...
+
+        bowler.init_spin_bowl(&mut speed);
         batter.take_shot();
-        bowler.bowl_spin(&mut speed, batter.shot == ShotType::Straight, false);
+        bowler.bowl(&mut speed);
         if batter.shot == ShotType::Left {
             display::print_left_bat();
-        } else {
-            // else if batter.shot == ShotType::Right {
-            //     display::print_right_bat();
-            // }
+        } else if batter.shot == ShotType::Right {
             display::print_right_bat();
+        } else {
+            display::print_front_bat();
         }
-        display::print_init_right_four();
-        display::print_right_boundary();
-        display::print_right_four(true);
-        //display::print_front_tip();
-        utils::sleep(2000);
+        cricket_engine.run(&bowler, &batter, speed);
+        sleep(1000);
+        if cricket_engine.game_end {
+            cls();
+            break;
+        }
+        if i % 5 == 0 && i != 0 {
+            over = ['*', '*', '*', '*', '*', '*']; // reset over...
+        }
 
-        // print!("{}", speed);
+        //FIX LEFT SPIN EDGE
     }
-    // sleep(10000000);
-    //print_bowler();
-    //pitch();
 }

@@ -6,4 +6,3 @@ edition = "2021"
 [dependencies]
 crossterm = "0.26"
 rand = "0.8"
-text_io = "0.1"
