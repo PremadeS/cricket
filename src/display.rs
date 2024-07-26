@@ -4,7 +4,7 @@ const BOWLER_X: u16 = 49;
 const BOWLER_Y: u16 = 33;
 const TERMINAL_X: u16 = 120;
 const TERMINAL_Y: u16 = 40;
-use crate::utils::{ cls, move_cursor, sleep };
+use crate::utils::{ self, cls, move_cursor, sleep };
 use crate::batter::Batter;
 use crate::bowler::{ Bowler, BowlerType };
 
@@ -13,7 +13,8 @@ pub fn print_details(
     batter: &Batter,
     curr_score: &u32,
     prev_score: &u32,
-    over: &[char]
+    over: &[char],
+    balls: &usize
 ) {
     move_cursor(0, 0);
     print!("Score: {}", *curr_score);
@@ -33,6 +34,29 @@ pub fn print_details(
     }
     move_cursor(TERMINAL_X - 40, TERMINAL_Y);
     print!("Last Ball: {}", curr_score - prev_score);
+
+    //Run rate and strike rate...
+    let runs_scored: f32 = *curr_score as f32;
+    let balls_faced: f32 = *balls as f32;
+    let strike_rate: f32 = (runs_scored / balls_faced) * 100.0;
+
+    let run_rate: f32;
+    if *balls < 6 {
+        run_rate = *curr_score as f32;
+    } else {
+        let num: f32 = *curr_score as f32;
+        let den: f32 = (*balls as f32) / 6.0;
+        run_rate = num / den;
+    }
+
+    move_cursor(0, 1);
+    print!("Strike Rate: {}", strike_rate);
+    move_cursor(0, 2);
+    print!("Run Rate: {}", run_rate);
+
+    //print overs...
+    move_cursor(105, 0);
+    print!("Overs: {}.{}", balls / 6, balls % 6);
 }
 pub fn print_pitch() {
     print_bat_wicket();
@@ -689,4 +713,54 @@ pub fn print_straight_out(speed: u64, out: bool) {
             y -= 1;
         }
     }
+}
+pub fn print_out_screen(score: &u32, balls: &usize, total_overs: &usize) {
+    cls();
+    let x: u16 = 35;
+    let y: u16 = 12;
+    move_cursor(x, y);
+    print!("Out!");
+    move_cursor(x, y + 2);
+    print!("Your Score: {}", *score);
+    move_cursor(x, y + 4);
+    print!(
+        "Total Overs played: {} overs and {} balls, out of {} overs",
+        *balls / 6,
+        *balls % 6,
+        *total_overs
+    );
+    move_cursor(x, y + 6);
+    print!("Total Balls played: {}", *balls);
+
+    move_cursor(x, y + 8);
+    print!("Strike Rate: {}", ((*score as f32) / (*balls as f32)) * 100.0);
+
+    move_cursor(x, y + 10);
+    if *balls <= 6 {
+        print!("Run Rate: {}", *score);
+    } else {
+        print!("Run Rate: {}", (*score as f32) / ((*balls as f32) / 6.0));
+    }
+}
+pub fn print_over_screen(curr_score: &u32, balls: &usize, total_overs: &usize) -> char {
+    let x: u16 = 45;
+    let y: u16 = 14;
+
+    move_cursor(x, y);
+    print!("Overs played: {} out of {}", *balls / 6, *total_overs);
+
+    move_cursor(x, y + 1);
+    if *balls < 6 {
+        print!("Current run rate: {}", *curr_score);
+    } else {
+        print!("Current run rate: {}", (*curr_score as f32) / ((*balls as f32) / 6.0));
+    }
+    move_cursor(x, y + 2);
+    print!("Current strike rate: {}", ((*curr_score as f32) / (*balls as f32)) * 100.0);
+    move_cursor(x, y + 3);
+    print!("Press any key to continue...");
+    move_cursor(x, y + 4);
+    print!("Or press 'd' to disable this screen...");
+    move_cursor(x, y + 5);
+    utils::read_char()
 }

@@ -1,7 +1,4 @@
-use crossterm::event::{ self, Event, KeyCode, KeyEvent, KeyModifiers };
-use crossterm::terminal::{ disable_raw_mode, enable_raw_mode };
-use std::process;
-use crate::utils::move_cursor;
+use crate::utils::{ self, move_cursor };
 #[derive(Debug, PartialEq)]
 pub enum ShotType {
     Left,
@@ -29,29 +26,6 @@ impl Batter {
         }
     }
 
-    fn read_char(&self) -> char {
-        //To read char without pressing enter...
-        enable_raw_mode().expect("Failed to enable raw mode");
-        loop {
-            if event::poll(std::time::Duration::from_millis(100)).expect("Failed to poll") {
-                if
-                    let Event::Key(KeyEvent { code, modifiers, .. }) = event
-                        ::read()
-                        .expect("Failed to read event")
-                {
-                    if code == KeyCode::Char('c') && modifiers.contains(KeyModifiers::CONTROL) {
-                        //Check for ctrl + c...
-                        disable_raw_mode().expect("Failed to disable raw mode");
-                        process::exit(0);
-                    }
-                    if let KeyCode::Char(c) = code {
-                        disable_raw_mode().expect("Failed to disable raw mode");
-                        return c;
-                    }
-                }
-            }
-        }
-    }
     fn char_to_enum(&mut self, shot: char, power: char) {
         let lower_shot: char = shot.to_lowercase().next().unwrap(); //Convert to lowercase...
         let lower_power: char = power.to_lowercase().next().unwrap();
@@ -113,18 +87,18 @@ impl Batter {
     pub fn take_shot(&mut self) {
         move_cursor(0, 10);
         println!("Shot direction?\n(L)eft , (R)ight, (S)traight");
-        let mut shot: char = self.read_char();
+        let mut shot: char = utils::read_char();
         move_cursor(0, 12);
         println!("Power level?\n(L)ow , (M)edium , (H)igh");
-        let mut power: char = self.read_char();
+        let mut power: char = utils::read_char();
         self.clear_selection();
         while !self.valid_selection(shot, power) {
             move_cursor(0, 10);
             println!("Shot direction?\n(L)eft , (R)ight, (S)traight");
-            shot = self.read_char();
+            shot = utils::read_char();
             move_cursor(0, 12);
             println!("Power level?\nL)ow , (M)edium , (H)igh");
-            power = self.read_char();
+            power = utils::read_char();
             self.clear_selection();
         }
         self.char_to_enum(shot, power);
