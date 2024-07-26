@@ -2,7 +2,7 @@ const BATSMAN_X: u16 = 58;
 const BOWLER_Y: u16 = 33;
 const TURN: u16 = 27;
 const MAX_BALL_DIS: u16 = 31;
-use crate::utils::{ self, move_cursor, sleep };
+use crate::utils::{ self, move_cursor };
 #[derive(Debug, PartialEq)]
 pub enum BowlerType {
     Spin,
@@ -32,7 +32,7 @@ impl Bowler {
     pub fn bowl(&mut self, speed: &mut u64) {
         match self.bowler_type {
             BowlerType::Spin => self.bowl_spin(speed),
-            BowlerType::Fast => self.fast_bowl(speed),
+            BowlerType::Fast => self.bowl_fast(speed),
         }
     }
 
@@ -103,12 +103,12 @@ impl Bowler {
         }
     }
 
-    fn fast_bowl(&mut self, speed: &mut u64) {
+    fn bowl_fast(&mut self, speed: &mut u64) {
         let direction: u32 = utils::random_num(1, 10);
-        if (1..4).contains(&direction) {
+        if (1..=4).contains(&direction) {
             self.bowl_fast_left(speed);
             self.bowl_type = BowlType::Left;
-        } else if (5..8).contains(&direction) {
+        } else if (5..=8).contains(&direction) {
             self.bowl_fast_right(speed);
             self.bowl_type = BowlType::Right;
         } else {
@@ -185,7 +185,7 @@ impl Bowler {
     fn bowl_fast_straight(&self, speed: &mut u64) {
         let x: u16 = BATSMAN_X - 1;
         let y: u16 = BOWLER_Y;
-        let end: u16 = MAX_BALL_DIS - 4;
+        let end: u16 = MAX_BALL_DIS - 6;
         for i in 1..=end {
             utils::move_cursor(x, y - i + 1);
             print!(" ");

@@ -113,6 +113,18 @@ pub fn erase_generic_man(x: u16, y: u16) {
     move_cursor(x, y + 5);
     print!("       ");
 }
+pub fn print_bowling_action() {
+    let x: u16 = BOWLER_X;
+    let y: u16 = BOWLER_Y;
+    move_cursor(x, y + 2);
+    print!("  ");
+    move_cursor(x + 1, y + 1);
+    print!("  ");
+    move_cursor(x + 4, y);
+    print!("/");
+    move_cursor(x + 5, y - 1);
+    print!("/");
+}
 
 pub fn print_left_bat() {
     let x: u16 = BATSMAN_X;
@@ -551,6 +563,8 @@ pub fn print_back_catch(drop: bool) {
 pub fn print_init_back() {
     let mut x: u16 = 54;
     let mut y: u16 = 3;
+    move_cursor(x - 1, y);
+    print!(" ");
     for i in 0..3 {
         move_cursor(x, y);
         print!("*");
@@ -653,7 +667,7 @@ pub fn print_init_front_shot() {
     }
 }
 
-pub fn print_spin_wicket(speed: u64, out: bool) {
+pub fn print_straight_out(speed: u64, out: bool) {
     let x: u16 = 57;
     let mut y: u16 = 7;
     let end: u16;
@@ -662,6 +676,8 @@ pub fn print_spin_wicket(speed: u64, out: bool) {
     } else {
         end = 4;
     }
+    move_cursor(x, y + 1);
+    print!(" "); //erase ball if it is already there...
     for _i in 0..end {
         move_cursor(x, y);
         print!("*");
