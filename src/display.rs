@@ -714,12 +714,16 @@ pub fn print_straight_out(speed: u64, out: bool) {
         }
     }
 }
-pub fn print_out_screen(score: &u32, balls: &usize, total_overs: &usize) {
+pub fn print_end_screen(score: &u32, balls: &usize, total_overs: &usize, out: bool) {
     cls();
     let x: u16 = 35;
     let y: u16 = 12;
     move_cursor(x, y);
-    print!("Out!");
+    if out {
+        print!("Out!");
+    } else {
+        print!("End");
+    }
     move_cursor(x, y + 2);
     print!("Your Score: {}", *score);
     move_cursor(x, y + 4);

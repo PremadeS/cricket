@@ -3,7 +3,7 @@ use bowler::{ Bowler, BowlerType };
 use display::{
     print_bowling_action,
     print_details,
-    print_out_screen,
+    print_end_screen,
     print_pitch,
     print_over_screen,
 };
@@ -70,9 +70,9 @@ fn main() {
         over[(balls - 1) % 6] = (cricket_engine.score - prev_score + 48) as u8 as char; //covert to char...
 
         sleep(1000);
-        if cricket_engine.game_end {
+        if cricket_engine.game_end || balls == total_overs * 6 {
             cls();
-            print_out_screen(&cricket_engine.score, &balls, &total_overs);
+            print_end_screen(&cricket_engine.score, &balls, &total_overs, true);
             break;
         }
     }
