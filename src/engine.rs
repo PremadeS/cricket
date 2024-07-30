@@ -776,14 +776,14 @@ impl Engine {
                 display::print_init_back();
                 display::print_back_boundary();
                 if (1..=3).contains(&random_num(1, 4)) {
-                    // 80%
+                    // 75%
                     let drop: bool = random_num(1, 2) == 1;
                     print_back_catch(drop); //50%
                     if !drop {
                         self.game_end = true;
                     }
                 } else {
-                    //20%
+                    //25%
                     print_back_four();
                     self.score += 4;
                 }
@@ -1231,8 +1231,8 @@ impl Engine {
                         //10%
                         print_init_back();
                         print_back_boundary();
-                        let drop: bool = random_num(1, 2) == 1;
-                        print_back_catch(drop); //50%
+                        let drop: bool = random_num(1, 3) == 1;
+                        print_back_catch(drop); //33.3%
                         if !drop {
                             self.game_end = true;
                         }
@@ -1425,7 +1425,7 @@ impl Engine {
                         }
                     } else {
                         //80%
-                        let out: bool = random_num(1, 3) == 1; // 33.3%
+                        let out: bool = random_num(1, 2) == 1; // 50%
                         display::print_straight_out(speed, out);
                         if out {
                             self.game_end = true; //OUT

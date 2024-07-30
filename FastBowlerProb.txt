@@ -1,0 +1,155 @@
+    left_fast_left_shot_high
+
+        For speed < 31:
+
+            left six [1, 65] (65%)
+                catch in [1] out of [1, 2] (50%)
+            left four [66, 75] (10%)
+                block in [1] out of [1, 4] (25%)
+            back [76, 100] (25%)
+                catch in [1, 2] out of [1, 3] (66.6%)
+                    drop in [1] out of [1, 3] (33.3%)
+                four (33.3%)
+
+        For speed >= 31:
+
+            left six [1, 55] (55%)
+                catch in [1] out of [1, 2] (50%)
+            left four [56, 75] (20%)
+                block in [1] out of [1, 3] (33.3%)
+            back [76, 100] (25%)
+                catch in [1, 2] out of [1, 3] (66.6%)
+                    drop in [1] out of [1, 3] (33.3%)
+                four (33.3%)
+
+    left_fast_left_shot_med
+
+        For speed < 75:
+
+            left six [1, 40] (40%)
+                catch in [1, 2] out of [1, 5] (40%)
+            left four [41, 85] (45%)
+                block in [1] out of [1, 3] (33.3%)
+            back [86, 95] (10%)
+                catch in [1, 3] out of [1, 5] (60%)
+                    drop in [1] out of [1, 3] (33.3%)
+                four (40%)
+            left tip [96, 100] (5%)
+
+        For speed >= 75:
+
+            left six [1, 30] (30%)
+                catch in [1, 2] out of [1, 5] (40%)
+            left four [31, 80] (50%)
+                block in [1, 2] out of [1, 5] (40%)
+            back [81, 90] (10%)
+                catch in [1, 3] out of [1, 4] (75%)
+                    drop in [1] out of [1, 2] (50%)
+                four (25%)
+            left tip [91, 100] (10%)
+
+    left_fast_left_shot_low
+
+        For speed < 75:
+
+            left tip [1, 7] (70%)
+            left four [8, 10] (30%)
+                block in [1, 4] out of [1, 5] (80%)
+
+        For speed >= 75:
+
+            left tip [1, 8] (80%)
+                random score (0 or 1)
+            left four [9, 10] (20%)
+                block in [1, 9] out of [1, 10] (90%)
+
+    left_fast_right_shot
+
+        left_fast_left_shot_high (20%)
+        tip                      (40%)
+        edge                     (10%)
+            catch (50%)
+        miss                     (30%)
+
+    left_fast_straight_shot
+
+        miss (100%)
+
+--------------------------------------------------------------
+
+Right: (Same as Left)
+
+--------------------------------------------------------------
+
+Straight:
+
+    straight_fast_straight_shot_high
+
+        For speed < 31:
+
+            front shot [1, 55] (55%)
+                four in [1, 4] out of [1, 5] (80%)
+            front tip [56, 90] (35%)
+            back [91, 100] (10%)
+                four [1] out of [1, 3] (33.3%)
+                catch [2, 3] out of [1, 3] (66.6%)
+                    drop [1] out of [1, 2] (50%)
+
+        For speed >= 31:
+
+            front shot [1, 45] (45%)
+                four [1, 3] out of [1, 5] (60%)
+            front tip [46, 90] (45%)
+            back [91, 100] (10%)
+                four [1] out of [1, 3] (33.3%)
+                catch [2, 3] out of [1, 3] (66.6%)
+                    drop [1] out of [1, 2] (50%)
+
+    straight_fast_straight_shot_med
+
+        For speed < 31:
+
+            front shot [1, 35] (35%)
+                four [1, 2] out of [1, 5] (40%)
+            front tip [36, 95] (60%)
+            back [96, 100] (5%)
+                four [1] out of [1, 5] (20%)
+                catch [2, 5] out of [1, 5] (80%)
+                    drop [1] out of [1, 2] (50%)
+
+        For speed >= 31:
+
+            front shot [1, 30] (30%)
+                four [1] out of [1, 5] (20%)
+            front tip [31, 95] (65%)
+            back [96, 100] (5%)
+                four [1] out of [1, 6] (16.6%)
+                catch [2, 6] out of [1, 6] (83.3%)
+                    drop [1] out of [1, 2] (50%)
+
+    straight_fast_straight_shot_low
+
+        For speed < 31:
+
+            front shot [1, 20] (20%)
+                four [1] out of [1, 5] (20%)
+            front tip [21, 95] (75%)
+            back [96, 100] (5%)
+                four [1] out of [1, 10] (10%)
+                catch [2, 10] out of [1, 10] (90%)
+                    drop [1] out of [1, 2] (50%)
+
+        For speed >= 31:
+
+            front shot [1, 15] (15%)
+                four [1] out of [1, 20] (5%)
+            front tip [16, 100] (85%)
+
+     straight_fast_left/right_shot
+
+         edge (20%)
+                four (10%)
+                catch (90%)
+                    drop (50%)
+            miss (80%)
+                out (33.3%)
