@@ -1287,7 +1287,7 @@ impl Engine {
                         self.straight_spin_straight_shot_low(speed);
                     }
                 } else {
-                    if random_num(1, 5) != 1 && batter.shot == ShotType::Left {
+                    if random_num(1, 5) == 1 && batter.shot == ShotType::Left {
                         //20% Edge
                         display::print_straight_out(speed, false);
                         print_init_back();
@@ -1406,7 +1406,7 @@ impl Engine {
                         self.straight_fast_straight_shot_low(speed);
                     }
                 } else {
-                    if random_num(1, 5) != 1 && batter.shot == ShotType::Left {
+                    if random_num(1, 5) == 1 && batter.shot == ShotType::Left {
                         //20% Edge
                         display::print_straight_out(speed, false);
                         print_init_back();
