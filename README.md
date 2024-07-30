@@ -1,4 +1,4 @@
-# Cricket 2.0
+# Cricket
 
 completely *luck* based cricket made in **rust**
 
