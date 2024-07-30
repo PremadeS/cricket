@@ -12,7 +12,7 @@ cargo run
 
 # Note
 
-set your *terminal* size to `120 x 40px`because I'm too *lazy* to make it variable sized
+set your *terminal* size to `120 x 40px` because I'm too *lazy* to make it variable sized
 
 # Probabilities
 
