@@ -16,7 +16,7 @@ mod bowler;
 mod batter;
 mod engine;
 fn main() {
-    let mut bowler: Bowler = Bowler::new("temp", BowlerType::Fast);
+    let mut bowler: Bowler = Bowler::new("Max Power", BowlerType::Fast);
     let mut batter: Batter = Batter::new("Chris P. Chips");
     let mut cricket_engine: Engine = Engine::new(false, 0);
     let mut over: [char; 6] = ['*', '*', '*', '*', '*', '*'];
