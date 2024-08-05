@@ -51,7 +51,7 @@ pub fn print_details(
 
     move_cursor(0, 1);
     print!("Strike Rate: {}", strike_rate);
-    move_cursor(0, 2);
+    move_cursor(105, 1);
     print!("Run Rate: {}", run_rate);
 
     //print overs...

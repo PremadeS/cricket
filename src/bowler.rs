@@ -65,13 +65,13 @@ impl Bowler {
             }
         }
     }
-    fn bowl_spin_right(&self, speed: &mut u64) {
+   fn bowl_spin_right(&self, speed: &mut u64) {
         let x: u16 = BATSMAN_X - 1;
         let y: u16 = BOWLER_Y;
         for i in TURN..MAX_BALL_DIS {
-            utils::move_cursor(x - (TURN - i), y - i + 1);
+            utils::move_cursor(x + (i - TURN), y - i + 1);  // Fixed the overflow
             print!(" ");
-            utils::move_cursor(x - (TURN - i - 1), y - i);
+            utils::move_cursor(x + (i - TURN + 1), y - i);  // fix
             print!("*");
             utils::sleep(*speed);
             *speed += 1;
@@ -81,9 +81,9 @@ impl Bowler {
         let x: u16 = BATSMAN_X - 1;
         let y: u16 = BOWLER_Y;
         for i in TURN..MAX_BALL_DIS {
-            utils::move_cursor(x + (TURN - i), y - i + 1);
+            utils::move_cursor(x - (i - TURN), y - i + 1); // fix
             print!(" ");
-            utils::move_cursor(x + (TURN - i - 1), y - i);
+            utils::move_cursor(x - (i - TURN + 1), y - i); // fix
             print!("*");
             utils::sleep(*speed);
             *speed += 1;
