@@ -45,7 +45,7 @@ fn main() {
         cls();
         print_pitch();
 
-        print_details(&bowler, &batter, &cricket_engine.score, &prev_score, &over, &(balls - 1));
+        print_details(&bowler, &batter, &cricket_engine.score, &prev_score, &over, &(balls - 1),&speed);
         prev_score = cricket_engine.score; //Update previous score...
 
         if bowler.bowler_type == BowlerType::Spin {
