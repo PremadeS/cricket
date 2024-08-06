@@ -14,7 +14,8 @@ pub fn print_details(
     curr_score: &u32,
     prev_score: &u32,
     over: &[char],
-    balls: &usize
+    balls: &usize,
+    speed: &u64,
 ) {
     move_cursor(0, 0);
     print!("Score: {}", *curr_score);
@@ -57,6 +58,17 @@ pub fn print_details(
     //print overs...
     move_cursor(105, 0);
     print!("Overs: {}.{}", balls / 6, balls % 6);
+
+    //print last ball speed
+    move_cursor(TERMINAL_X - 25, TERMINAL_Y - 2);
+    print!("Last ball speed: ");
+    if bowler.bowler_type == BowlerType::Spin && *balls > 0{
+        print!("{} kmph",127 - *speed)
+    }else if *balls > 0{
+        print!("{} kmph",180 - *speed);
+    }else{
+        print!("NaN kmph");
+    }
 }
 pub fn print_pitch() {
     print_bat_wicket();
